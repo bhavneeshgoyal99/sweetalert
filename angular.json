@@ -1,7 +1,145 @@
 {
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "cli": {
+    "analytics": "14d31868-a8d3-41f4-8571-69316852f61f"
+  },
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-  }
+    "sweetalert": {
+      "projectType": "library",
+      "root": "projects/sweetalert",
+      "sourceRoot": "projects/sweetalert/src",
+      "prefix": "bg",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/sweetalert/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/sweetalert/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/sweetalert/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/sweetalert/src/test.ts",
+            "tsConfig": "projects/sweetalert/tsconfig.spec.json",
+            "karmaConfig": "projects/sweetalert/karma.conf.js"
+          }
+        }
+      }
+    },
+    "sweetalert-example": {
+      "projectType": "application",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        },
+        "@schematics/angular:application": {
+          "strict": true
+        }
+      },
+      "root": "projects/sweetalert-example",
+      "sourceRoot": "projects/sweetalert-example/src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/sweetalert-example",
+            "index": "projects/sweetalert-example/src/index.html",
+            "main": "projects/sweetalert-example/src/main.ts",
+            "polyfills": "projects/sweetalert-example/src/polyfills.ts",
+            "tsConfig": "projects/sweetalert-example/tsconfig.app.json",
+            "inlineStyleLanguage": "scss",
+            "assets": [
+              "projects/sweetalert-example/src/favicon.ico",
+              "projects/sweetalert-example/src/assets"
+            ],
+            "styles": [
+              "projects/sweetalert-example/src/styles.scss"
+            ],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kb",
+                  "maximumError": "1mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2kb",
+                  "maximumError": "4kb"
+                }
+              ],
+              "fileReplacements": [
+                {
+                  "replace": "projects/sweetalert-example/src/environments/environment.ts",
+                  "with": "projects/sweetalert-example/src/environments/environment.prod.ts"
+                }
+              ],
+              "outputHashing": "all"
+            },
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "configurations": {
+            "production": {
+              "browserTarget": "sweetalert-example:build:production"
+            },
+            "development": {
+              "browserTarget": "sweetalert-example:build:development"
+            }
+          },
+          "defaultConfiguration": "development"
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "sweetalert-example:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/sweetalert-example/src/test.ts",
+            "polyfills": "projects/sweetalert-example/src/polyfills.ts",
+            "tsConfig": "projects/sweetalert-example/tsconfig.spec.json",
+            "karmaConfig": "projects/sweetalert-example/karma.conf.js",
+            "inlineStyleLanguage": "scss",
+            "assets": [
+              "projects/sweetalert-example/src/favicon.ico",
+              "projects/sweetalert-example/src/assets"
+            ],
+            "styles": [
+              "projects/sweetalert-example/src/styles.scss"
+            ],
+            "scripts": []
+          }
+        }
+      }
+    }
+  },
+  "defaultProject": "sweetalert"
 }
